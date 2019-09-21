@@ -1,8 +1,8 @@
 import React, { Component } from 'react'; // destructuring 'cause Component is not default export
 import './App.css';
-import CardList from './CardList';
-import SearchBox from './SearchBox';
-import Scroll from './Scroll';
+import CardList from '../components/CardList';
+import SearchBox from '../components/SearchBox';
+import Scroll from '../components/Scroll';
 
 class App extends Component {
     constructor() {
@@ -24,23 +24,20 @@ class App extends Component {
     }
 
     render() {
-        const filterrobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        const { robots, searchfield } = this.state;
+        const filterrobots = robots.filter(robot => {
+            return robot.name.toLowerCase().includes(searchfield.toLowerCase());
         });
 
-        if (this.state.robots.length === 0) {
-            return <h1>Loading...</h1>
-        } else {
-            return (
-                <div className="tc" >
-                    <h1 className="f1">Robofriends</h1>
-                    <SearchBox searchChange={this.onSearchChange} />
-                    <Scroll>
-                        <CardList robots={filterrobots} />
-                    </Scroll>
-                </div>
-            );
-        }
+        return !robots.length ? //ternary expression
+            <h1>Loading...</h1> :
+            <div className="tc" >
+                <h1 className="f1">Robofriends</h1>
+                <SearchBox searchChange={this.onSearchChange} />
+                <Scroll>
+                    <CardList robots={filterrobots} />
+                </Scroll>
+            </div>
     }
 }
 
